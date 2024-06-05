@@ -68,4 +68,6 @@ public class UserDao implements Dao<Integer, User> {
 
     private UserDao() {
     }
+
+//User
 }
