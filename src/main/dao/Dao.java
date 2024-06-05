@@ -1,5 +1,6 @@
 package main.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,6 @@ public interface  Dao <F, T>{
 
     void update(T entity);
 
-    T save(T entity);
+    T save(T entity) throws SQLException;
 
 }

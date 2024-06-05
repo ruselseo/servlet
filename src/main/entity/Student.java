@@ -3,7 +3,7 @@ package main.entity;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class User {
+public class Student {
     private Integer id;
     private String name;
     private LocalDate birthday;
@@ -12,7 +12,7 @@ public class User {
     private Role role;
     private Gender gender;
 
-    public User(Integer id, String name, LocalDate birthday, String email, String password, Role role, Gender gender) {
+    public Student(Integer id, String name, LocalDate birthday, String email, String password, Role role, Gender gender) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -22,7 +22,7 @@ public class User {
         this.gender = gender;
     }
 
-    public User() {
+    public Student() {
     }
 
     public Integer getId() {
@@ -85,7 +85,7 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
+        Student user = (Student) o;
         return Objects.equals(getId(), user.getId());
     }
 
@@ -96,7 +96,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", birthday=" + birthday +
@@ -106,4 +106,6 @@ public class User {
                 ", gender=" + gender +
                 '}';
     }
+
+
 }

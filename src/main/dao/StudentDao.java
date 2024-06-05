@@ -1,6 +1,6 @@
 package main.dao;
 
-import main.entity.User;
+import main.entity.Student;
 import main.util.ConnectionManager;
 
 
@@ -12,17 +12,18 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 
 
-public class UserDao implements Dao<Integer, User> {
+public class StudentDao implements Dao<Integer, Student> {
 
-    private static final UserDao INSTANCE = new UserDao();
+    private static final StudentDao INSTANCE = new StudentDao();
 
     private static final String SAVE_SQL =
-            "INSERT INTO users (name, birthday, email, password, role, gender) VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO users (name, birthday, email, password, role, gender)" +
+                    " VALUES (?, ?, ?, ?, ?, ?)";
 
     @Override
-    public User save(User entity) {
-        try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
+    public Student save(Student entity) throws SQLException {
+        var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS); {
             preparedStatement.setObject(1, entity.getName());
             preparedStatement.setObject(2, entity.getBirthday());
             preparedStatement.setObject(3, entity.getEmail());
@@ -37,18 +38,16 @@ public class UserDao implements Dao<Integer, User> {
             entity.setId(generatedKeys.getObject("id", Integer.class));
 
             return entity;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<User> findAll() {
+    public List<Student> findAll() {
         return null;
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public Optional<Student> findById(Integer id) {
         return Optional.empty();
     }
 
@@ -58,15 +57,15 @@ public class UserDao implements Dao<Integer, User> {
     }
 
     @Override
-    public void update(User entity) {
+    public void update(Student entity) {
 
     }
 
-    public static UserDao getInstance() {
+    public static StudentDao getInstance() {
         return INSTANCE;
     }
 
-    private UserDao() {
+    private StudentDao() {
     }
 
 //User
