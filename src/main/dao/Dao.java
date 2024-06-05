@@ -3,7 +3,7 @@ package main.dao;
 import java.util.List;
 import java.util.Optional;
 
-public interface Dao <F, T>{
+public interface  Dao <F, T>{
 
 
     List<T> findAll();
