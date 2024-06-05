@@ -1,10 +1,16 @@
 package main.dao;
 
+import main.entity.Gender;
+import main.entity.Role;
 import main.entity.Student;
 import main.util.ConnectionManager;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +23,11 @@ public class StudentDao implements Dao<Integer, Student> {
     private static final StudentDao INSTANCE = new StudentDao();
 
     private static final String SAVE_SQL =
-            "INSERT INTO users (name, birthday, email, password, role, gender)" +
+            "INSERT INTO students (name, birthday, email, password, role, gender)" +
                     " VALUES (?, ?, ?, ?, ?, ?)";
+
+    private static final String FINDBYID_SQL =
+    "SELECT name, birthday, email, password, role, gender FROM students WHERE id = (?)";
 
     @Override
     public Student save(Student entity) throws SQLException {
@@ -48,7 +57,26 @@ public class StudentDao implements Dao<Integer, Student> {
 
     @Override
     public Optional<Student> findById(Integer id) {
-        return Optional.empty();
+        Student student = null;
+        try (var connection = ConnectionManager.get();
+             PreparedStatement ps = connection.prepareStatement(FINDBYID_SQL)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    student = new Student();
+                    student.setId(rs.getInt("id"));
+                    student.setName(rs.getString("name"));
+                    student.setBirthday((LocalDate) rs.getObject("birthday"));
+                    student.setEmail(rs.getString("email"));
+                    student.setPassword(rs.getString("password"));
+                    student.setGender(Gender.valueOf(rs.getString("gender")));
+                    student.setRole(Role.valueOf(rs.getString("role")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.ofNullable(student);
     }
 
     @Override
