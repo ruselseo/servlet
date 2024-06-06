@@ -1,15 +1,16 @@
 package main.dao;
 
+import main.entity.Student;
+
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public interface  Dao <F, T>{
 
 
     List<T> findAll();
 
-    Optional<T> findById(Integer id);
+    Student findById(Integer id);
 
     boolean delete(F id);
 

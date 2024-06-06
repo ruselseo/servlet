@@ -1,24 +1,44 @@
 package main.dto;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class StudentDto {
 
-       private final Long id;
-       private final String mail;
+       private Long id;
+       private String name;
+       private String email;
 
-    private StudentDto(Long id, String mail) {
+    public StudentDto(Long id, String name, String mail) {
         this.id = id;
-        this.mail = mail;
+        this.name = name;
+        this.email = mail;
+    }
+
+    public StudentDto() {}
+
+    public void setEmail(String mail) {
+        this.email = mail;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
 
@@ -26,22 +46,22 @@ public class StudentDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StudentDto studentDto = (StudentDto) o;
-        return Objects.equals(getId(), studentDto.getId()) && Objects.equals(getMail(), studentDto.getMail());
+        StudentDto that = (StudentDto) o;
+        return Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getMail());
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "StudentDto{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", mail='" + mail + '\'' +
                 '}';
     }
-
 }
 

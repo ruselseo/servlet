@@ -3,7 +3,7 @@ package main.servlet;
 import main.dto.CreateStudentDto;
 import main.entity.Gender;
 import main.entity.Role;
-import main.service.StusentService;
+import main.service.StudentService;
 import main.util.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
-    private final StusentService stusentService = StusentService.getInstance();
+    private final StudentService studentService = StudentService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,16 +30,16 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        CreateStudentDto userDto = new CreateStudentDto();
-        userDto.setName(req.getParameter("name"));
-        userDto.setPassword(req.getParameter("password"));
-        userDto.setEmail(req.getParameter("email"));
-        userDto.setBirthday(req.getParameter("birthday"));
-        userDto.setGender(req.getParameter("gender"));
-        userDto.setRole(req.getParameter("role"));
+        CreateStudentDto studentDto = new CreateStudentDto();
+        studentDto.setName(req.getParameter("name"));
+        studentDto.setPassword(req.getParameter("password"));
+        studentDto.setEmail(req.getParameter("email"));
+        studentDto.setBirthday(req.getParameter("birthday"));
+        studentDto.setGender(req.getParameter("gender"));
+        studentDto.setRole(req.getParameter("role"));
 
         try {
-            stusentService.create(userDto);
+            studentService.create(studentDto);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

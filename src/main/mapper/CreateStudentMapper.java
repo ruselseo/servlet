@@ -15,15 +15,17 @@ public class CreateStudentMapper implements Mapper<CreateStudentDto, Student> {
 
     @Override
     public Student mapFrom(CreateStudentDto object) {
-        Student user = new Student();
-        user.setName(object.getName());
-        user.setBirthday(LocalDateFormatter.format(object.getBirthday()));
-        user.setEmail(object.getEmail());
-        user.setPassword(object.getPassword());
-        user.setGender(Gender.valueOf(object.getGender()));
-        user.setRole(Role.valueOf(object.getRole()));
-        return user;
+        Student student = new Student();
+        student.setName(object.getName());
+        student.setBirthday(LocalDateFormatter.format(object.getBirthday()));
+        student.setEmail(object.getEmail());
+        student.setPassword(object.getPassword());
+        student.setGender(Gender.valueOf(object.getGender()));
+        student.setRole(Role.valueOf(object.getRole()));
+        return student;
     }
+
+
 
     public static CreateStudentMapper getInstance() {
         return INSTANCE;

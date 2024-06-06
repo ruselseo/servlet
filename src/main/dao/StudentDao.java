@@ -6,7 +6,6 @@ import main.entity.Student;
 import main.util.ConnectionManager;
 
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,27 +55,27 @@ public class StudentDao implements Dao<Integer, Student> {
     }
 
     @Override
-    public Optional<Student> findById(Integer id) {
-        Student student = null;
+    public Student findById(Integer id) {
+        Student entity = null;
         try (var connection = ConnectionManager.get();
              PreparedStatement ps = connection.prepareStatement(FINDBYID_SQL)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    student = new Student();
-                    student.setId(rs.getInt("id"));
-                    student.setName(rs.getString("name"));
-                    student.setBirthday((LocalDate) rs.getObject("birthday"));
-                    student.setEmail(rs.getString("email"));
-                    student.setPassword(rs.getString("password"));
-                    student.setGender(Gender.valueOf(rs.getString("gender")));
-                    student.setRole(Role.valueOf(rs.getString("role")));
+                    entity = new Student();
+                    entity.setId(rs.getInt("id"));
+                    entity.setName(rs.getString("name"));
+                    entity.setBirthday((LocalDate) rs.getObject("birthday"));
+                    entity.setEmail(rs.getString("email"));
+                    entity.setPassword(rs.getString("password"));
+                    entity.setGender(Gender.valueOf(rs.getString("gender")));
+                    entity.setRole(Role.valueOf(rs.getString("role")));
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return Optional.ofNullable(student);
+        return entity;
     }
 
     @Override

@@ -20,7 +20,6 @@ public class CreateStudentDto {
     }
 
     public CreateStudentDto() {
-
     }
 
     public String getName() {
