@@ -60,7 +60,7 @@ public class StudentDto {
         return "StudentDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", mail='" + mail + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
