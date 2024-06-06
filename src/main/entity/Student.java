@@ -11,8 +11,9 @@ public class Student {
     private String password;
     private Role role;
     private Gender gender;
+    private Course course;
 
-    public Student(Integer id, String name, LocalDate birthday, String email, String password, Role role, Gender gender) {
+    public Student(Integer id, String name, LocalDate birthday, String email, String password, Role role, Gender gender, Course course) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -20,6 +21,7 @@ public class Student {
         this.password = password;
         this.role = role;
         this.gender = gender;
+        this.course = course;
     }
 
     public Student() {
@@ -79,6 +81,14 @@ public class Student {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Course getCourse() {
+        return course;
     }
 
     @Override
