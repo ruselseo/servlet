@@ -2,7 +2,6 @@ package main.servlet;
 
 import main.dto.CreateStudentDto;
 import main.entity.Gender;
-import main.entity.Role;
 import main.service.StudentService;
 import main.util.JspHelper;
 import jakarta.servlet.ServletException;

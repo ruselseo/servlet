@@ -6,22 +6,18 @@ import java.util.Objects;
 public class Student {
     private Integer id;
     private String name;
-    private LocalDate birthday;
     private String email;
-    private String password;
-    private Role role;
     private Gender gender;
-    private Course course;
+    private Integer group;
+    private Integer classes;
 
-    public Student(Integer id, String name, LocalDate birthday, String email, String password, Role role, Gender gender, Course course) {
+    public Student(Integer id, String name, String email, Gender gender, Integer group, Integer classes) {
         this.id = id;
         this.name = name;
-        this.birthday = birthday;
         this.email = email;
-        this.password = password;
-        this.role = role;
         this.gender = gender;
-        this.course = course;
+        this.group = group;
+        this.classes = classes;
     }
 
     public Student() {
@@ -43,36 +39,12 @@ public class Student {
         this.name = name;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public Gender getGender() {
@@ -83,20 +55,28 @@ public class Student {
         this.gender = gender;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public Integer getGroup() {
+        return group;
     }
 
-    public Course getCourse() {
-        return course;
+    public void setGroup(Integer group) {
+        this.group = group;
+    }
+
+    public Integer getClasses() {
+        return classes;
+    }
+
+    public void setClasses(Integer classes) {
+        this.classes = classes;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Student user = (Student) o;
-        return Objects.equals(getId(), user.getId());
+        Student student = (Student) o;
+        return Objects.equals(getId(), student.getId());
     }
 
     @Override
@@ -109,13 +89,10 @@ public class Student {
         return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", birthday=" + birthday +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
                 ", gender=" + gender +
+                ", group=" + group +
+                ", classes=" + classes +
                 '}';
     }
-
-
 }

@@ -1,7 +1,6 @@
 package main.dao;
 
 import main.entity.Gender;
-import main.entity.Role;
 import main.entity.Student;
 import main.util.ConnectionManager;
 
@@ -10,8 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
@@ -26,18 +25,20 @@ public class StudentDao implements Dao<Integer, Student> {
                     " VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String FINDBYID_SQL =
-    "SELECT name, birthday, email, password, role, gender FROM students WHERE id = (?)";
+    "SELECT name, email, gender FROM students WHERE id = (?)";
+
+    private static final String FINDBYGROUP_ID_SQL =
+    "SELECT name, email, gender FROM students WHERE group_id = (?)";
 
     @Override
     public Student save(Student entity) throws SQLException {
         var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS); {
             preparedStatement.setObject(1, entity.getName());
-            preparedStatement.setObject(2, entity.getBirthday());
-            preparedStatement.setObject(3, entity.getEmail());
-            preparedStatement.setObject(4, entity.getPassword());
-            preparedStatement.setObject(5, entity.getRole().name());
-            preparedStatement.setObject(6, entity.getGender().name());
+            preparedStatement.setObject(2, entity.getEmail());
+            preparedStatement.setObject(3, entity.getGender().name());
+            preparedStatement.setObject(4, entity.getGroup());
+            preparedStatement.setObject(5, entity.getClasses());
 
             preparedStatement.executeUpdate();
 
@@ -54,6 +55,29 @@ public class StudentDao implements Dao<Integer, Student> {
         return null;
     }
 
+    public List<Student> findAllByGroupId(Integer groupId) {
+        List<Student> students = new ArrayList<>();
+        try {
+            var connection = ConnectionManager.get();
+            PreparedStatement preparedStatement = connection.prepareStatement(FINDBYGROUP_ID_SQL);
+            preparedStatement.setInt(1, groupId);
+            var resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                students.add(new Student(
+                        resultSet.getObject("id", Integer.class),
+                        resultSet.getObject("name", String.class),
+                        resultSet.getObject("email", String.class),
+                        Gender.valueOf(resultSet.getObject("gender", String.class)),
+                        resultSet.getObject("groupId", Integer.class),
+                        resultSet.getObject("classId", Integer.class)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return List.of();
+    }
+
     @Override
     public Student findById(Integer id) {
         Student entity = null;
@@ -65,11 +89,10 @@ public class StudentDao implements Dao<Integer, Student> {
                     entity = new Student();
                     entity.setId(rs.getInt("id"));
                     entity.setName(rs.getString("name"));
-                    entity.setBirthday((LocalDate) rs.getObject("birthday"));
                     entity.setEmail(rs.getString("email"));
-                    entity.setPassword(rs.getString("password"));
                     entity.setGender(Gender.valueOf(rs.getString("gender")));
-                    entity.setRole(Role.valueOf(rs.getString("role")));
+                    entity.setGroup(rs.getInt("group_id"));
+                    entity.setClasses((rs.getInt("class_id")));
                 }
             }
         } catch (SQLException e) {
